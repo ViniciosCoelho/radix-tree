@@ -14,12 +14,15 @@ class Node:
             printed_word = '*Root*'
         elif self.word == '':
             printed_word = '.'
+            print('┃' + indent, end='')
         else:
             printed_word = self.word
+            print('┃' + indent, end='')
 
-        print(indent + printed_word + '(')
+        print(indent + printed_word)
 
         for edge in self.edges:
-            edge.print(indent + '   ')
-        
-        print(indent + ')')
+            if edge is self.edges[-1]:
+                edge.print('   ┗╾ ')
+            else:
+                edge.print('   ┣╾ ')
