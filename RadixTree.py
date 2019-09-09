@@ -67,7 +67,7 @@ class RadixTree:
                 prefix = prefix[:difference_index]
                 prefix_size = len(word_found)
 
-                suffix1 = current_word[prefix_size:]
+                suffix1 = most_similar_word[prefix_size:]
                 suffix2 = word[prefix_size:]
 
                 new_node1 = Node(suffix1)
@@ -100,6 +100,11 @@ class RadixTree:
                         most_similar_node = edge
                         most_similar_word = current_word
                         continue
+                    elif word.startswith(current_word):
+                        difference_index = len(current_word)
+                        most_similar_node = edge
+                        most_similar_word = current_word
+                        continue
                 elif len(word) < len(current_word):
                     if word == current_word[:-1]:
                         if current_word[-1] == current_word[-2]:
@@ -112,7 +117,12 @@ class RadixTree:
                         most_similar_node = edge
                         most_similar_word = current_word
                         continue
-                
+                    elif current_word.startswith(word):
+                        difference_index = len(word)
+                        most_similar_node = edge
+                        most_similar_word = current_word
+                        continue
+
                 for x, y in zip(word, current_word):
                     if x != y:
                         if current_similar_index > difference_index:
@@ -131,7 +141,7 @@ class RadixTree:
                 prefix = prefix[:difference_index]
                 prefix_size = len(word_found) + len(prefix)
 
-                suffix1 = current_word[prefix_size:]
+                suffix1 = most_similar_word[prefix_size:]
                 suffix2 = word[prefix_size:]
 
                 new_node1 = Node(suffix1)
@@ -161,5 +171,5 @@ class RadixTree:
         
         return True
     
-    def print(self, indent="", last=True, stack=""):
+    def print(self):
         self.root.print()

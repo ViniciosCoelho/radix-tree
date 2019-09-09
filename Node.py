@@ -1,3 +1,5 @@
+from sys import stdout
+
 class Node:
     def __init__(self, word = None):
         self.edges = []
@@ -8,21 +10,28 @@ class Node:
     
     def add_edge(self, edge):
         self.edges.append(edge)
-    
-    def print(self, indent=""):
-        if self.word is None:
-            printed_word = '*Root*'
-        elif self.word == '':
-            printed_word = '.'
-            print('┃' + indent, end='')
+
+    def print(self, indent="", last=True, stack=""):
+        if indent != "":
+            stack = stack + self.word
+
+        stdout.write(indent)
+
+        if last:
+            stdout.write("┗╾ ")
+            indent += "  "
         else:
-            printed_word = self.word
-            print('┃' + indent, end='')
+            stdout.write("┣╾ ")
+            indent += "┃ "
 
-        print(indent + printed_word)
+        if self.word is None:
+            stdout.write("{}".format('*ROOT*'))
+        elif self.word == '':
+            stdout.write("{}".format('*'))
+        else:
+            stdout.write("{}".format(self.word))
 
-        for edge in self.edges:
-            if edge is self.edges[-1]:
-                edge.print('   ┗╾ ')
-            else:
-                edge.print('   ┣╾ ')
+        print(" - {}".format(stack))
+
+        for i, edge in enumerate(self.edges):
+            edge.print(indent, i == len(self.edges) - 1, stack)
