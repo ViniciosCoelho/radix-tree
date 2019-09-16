@@ -164,7 +164,7 @@ class RadixTree:
 
         parent_node.edges.remove(node)
         
-        if len(parent_node.edges) == 1:
+        if len(parent_node.edges) == 1 and parent_node.word != None:
             child_node = parent_node.edges.pop()
             parent_node.word += child_node.word
             parent_node.edges = child_node.edges
